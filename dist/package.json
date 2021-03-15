@@ -1,0 +1,30 @@
+{
+  "name": "css-in-js-preprocessor",
+  "version": "0.0.1",
+  "description": "Preprocess your css-in-js files to replace references to design system tokens with actual values",
+  "main": "lib/es5/index.js",
+  "module": "lib/es6/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheSpicyMeatball/css-in-js-preprocessor.git"
+  },
+  "files": [
+    "lib",
+    "CHANGELOG.md",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "keywords": [
+    "css-in-js",
+    "preprocess",
+    "preprocessor",
+    "tokens"
+  ],
+  "author": "Michael Paravano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheSpicyMeatball/css-in-js-preprocessor/issues"
+  },
+  "homepage": "https://github.com/TheSpicyMeatball/css-in-js-preprocessor#readme"
+}

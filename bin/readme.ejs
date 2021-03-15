@@ -1,0 +1,44 @@
+[![Build Status](https://travis-ci.com/TheSpicyMeatball/css-in-js-preprocessor.svg?branch=main)](https://travis-ci.com/TheSpicyMeatball/css-in-js-preprocessor)
+[![Coverage Status](https://coveralls.io/repos/github/TheSpicyMeatball/css-in-js-preprocessor/badge.svg?branch=main)](https://coveralls.io/github/TheSpicyMeatball/css-in-js-preprocessor?branch=main)
+[![dependencies Status](https://status.david-dm.org/gh/TheSpicyMeatball/css-in-js-preprocessor.svg)](https://david-dm.org/TheSpicyMeatball/css-in-js-preprocessor)
+[![npm version](https://badge.fury.io/js/css-in-js-preprocessor.svg)](https://badge.fury.io/js/css-in-js-preprocessor)
+
+# <%= package.name %>
+
+> <%= package.description %>
+
+<p>Hello friend.</p>
+<p>CSS-in-JS is awesome and powerful, but do you miss the ability to preprocess your styles with your token values (like .less &amp; .sass) without having to have your tokens as a dependency?</p>
+<p>Well, that's where <code><%= package.name %></code> is here to save the day!</p>
+<p>With <code><%= package.name %></code>, you can use your design system tokens to build your styles while also <i>auto-MAGICALLY</i> replacing the references to them with the actual values! Thus, eliminating the need for a dependency on a tokens package and ensuring that your values are up to date on every compile.</p>
+
+<p><b>Version:</b> <%= package.version %></p>
+
+<% for(var f=0; f < utils.length; f++) { %>
+  <%- generateTable(utils[f], package.name) %>
+
+<hr />
+<% } %>
+
+<a href="#package-contents"></a>
+<h2>Package Contents</h2>
+
+Within the module you'll find the following directories and files:
+
+```html
+package.json
+CHANGELOG.md -- history of changes to the module
+LICENSE
+README.md -- this file
+/<%= fileTree.name -%><% fileTree.children.forEach( function(child){ if (child.type == 'directory') { %>
+  └───/<%= child.name -%><% child.children.forEach(function(grandChild){ if (grandChild.type == 'directory') { %>
+    └───/<%= grandChild.name -%><% grandChild.children.forEach(function(greatGrand){ %>
+      └───<%= greatGrand.name -%> - <%= formatBytes(greatGrand.size) -%><% }) } else { %>
+      └───<%= grandChild.name -%> - <%= formatBytes(grandChild.size) -%><% } })} else { %>
+  └───<%= child.name -%> - <%= formatBytes(child.size) -%><% }}) %>
+```
+
+<a href="#license"></a>
+<h2>License</h2>
+
+<%= package.license %>
