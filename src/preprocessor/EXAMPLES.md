@@ -1,6 +1,14 @@
 <h5>Note</h5>
 
-<p>These examples overwrite the original files. I recommend that you preprocess your compiled files as part of your compile process so that you always have reference tot he tokens is source. That way if the token value ever changes, the values in your js styles will be updated with the next compile.</p>
+<p>These examples overwrite the original files. I recommend that you preprocess your compiled files as part of your compile process so that you always have reference to the tokens in source. That way if the token value ever changes, the values in your js styles will be updated with the next compile. If you are operating on the compiled files, you will want to overwrite the file you're preprocessing with the updated version which is why the examples are shown the way they are.</p>
+
+<p>Here's an example of how you might add it to your compile process. In this case, I'm running a TypeScript compile and then executing a node script that uses <code>css-in-js-preprocessor</code>:</p>
+
+```
+"scripts": {
+  "compile": "tsc && node bin/style-preprocess.js"
+}
+```
 
 <h4>Basic Example</h4>
 
@@ -27,7 +35,7 @@ export const someStyle = {
 ```
 
 <h5>style-preprocess.js</h5>
-<blockquote>This file should be executed at the end of your compile process.</blockquote>
+<blockquote>This file should be executed at the end of your compile or build process.</blockquote>
 
 ```
 const { preprocessor } = require('css-in-js-preprocessor');
@@ -67,7 +75,7 @@ export const someStyle = {
 <p>If you have additional preprocessing work that you'd like to do, you can pass in an array of functions that take in the preprocessed file where you can do your additional work and return the new string version of the file:</p>
 
 <h5>style-preprocess.js</h5>
-<blockquote>This file should be executed at the end of your compile process.</blockquote>
+<blockquote>This file should be executed at the end of your compile or build process.</blockquote>
 <p>Modify the above example with this:</p>
 
 ```
