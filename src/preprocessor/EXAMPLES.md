@@ -80,9 +80,10 @@ export const someStyle = {
 
 ```
 const changePaddingToMargin = file => file.replace('padding: ', 'margin: ');
+const addTimeStamp = file => `${file}\n\n// Compiled: ${(new Date()).toString()}`;
 
 // Setup preprocessor:
-const preprocess = preprocessor(tokens, './my-tokens', [changePaddingToMargin]);
+const preprocess = preprocessor(tokens, './my-tokens', [changePaddingToMargin, addTimeStamp]);
 ```
 
 <h5>styles.js</h5>
@@ -94,6 +95,8 @@ export const something = {
   fontSize: 12,
   margin: 16,
 };
+
+// Compiled: Tue Mar 16 2021 06:15:06 GMT-0500 (Central Daylight Time)
 ```
 
 <h4>Multiple Files</h4>
