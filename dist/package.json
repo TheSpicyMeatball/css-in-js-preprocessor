@@ -1,6 +1,6 @@
 {
   "name": "css-in-js-preprocessor",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Preprocess your css-in-js files to replace references to design system tokens with actual values",
   "main": "lib/es5/index.js",
   "module": "lib/es6/index.js",

@@ -1,3 +1,6 @@
+## [1.0.0] - 2021-03-16
+- Initial release
+
 ## [0.0.2] - 2021-03-16
 - Renamed function 'preprocess' to 'preprocessor'
 

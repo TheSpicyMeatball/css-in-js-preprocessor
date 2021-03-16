@@ -12,7 +12,7 @@
 <p>Well, that's where <code>css-in-js-preprocessor</code> is here to save the day!</p>
 <p>With <code>css-in-js-preprocessor</code>, you can use your design system tokens to build your styles while also <i>auto-MAGICALLY</i> replacing the references to them with the actual values! Thus, eliminating the need for a dependency on a tokens package and ensuring that your values are up to date on every compile.</p>
 
-<p><b>Version:</b> 0.0.2</p>
+<p><b>Version:</b> 1.0.0</p>
 
 
   
@@ -26,7 +26,7 @@
         <th>Param</th>
         <th>Type</th></tr>
       </thead>
-      <tbody><tr><td><p><b>file</b></p>The string contents of the file</td><td>string</td></tr><tr><td><p><b>tokens</b></p>Object containing the key/value pairs representing the token/value</td><td>Record&lt;string, unknown&gt;</td></tr><tr><td><p><b>tokenImport</b></p>The string path of the package or file imported</td><td>string</td></tr><tr><td><p><b>custom</b></p>Array of custom processors</td><td>Array&lt;(file: string) =&gt; string&gt;</td></tr></tbody>
+      <tbody><tr><td><p><b>file</b></p>The string contents of the file</td><td>string</td></tr><tr><td><p><b>tokens</b></p>Object containing the key/value pairs representing the token/value</td><td>Record&lt;string, unknown&gt;</td></tr><tr><td><p><b>tokensImport</b></p>The string path of the package or file imported for the tokens</td><td>string</td></tr><tr><td><p><b>custom</b></p>Array of custom processors</td><td>Array&lt;(file: string) =&gt; string&gt;</td></tr></tbody>
     </table><p><b>Returns:</b> {(file: string) =&gt; string}</p>
   <h3>Import</h3>
 
@@ -209,8 +209,8 @@ README.md -- this file
       └───index.d.ts - 48 Bytes
       └───index.js - 289 Bytes
     └───/preprocessor
-      └───index.d.ts - 662 Bytes
-      └───index.js - 1.27 KB
+      └───index.d.ts - 679 Bytes
+      └───index.js - 1.29 KB
     └───/_private
       └───preprocessTokens - 2.16 KB
       └───removeImport - 1.23 KB
@@ -219,8 +219,8 @@ README.md -- this file
       └───index.d.ts - 48 Bytes
       └───index.js - 48 Bytes
     └───/preprocessor
-      └───index.d.ts - 662 Bytes
-      └───index.js - 1.1 KB
+      └───index.d.ts - 679 Bytes
+      └───index.js - 1.12 KB
     └───/_private
       └───preprocessTokens - 1.98 KB
       └───removeImport - 1.08 KB
