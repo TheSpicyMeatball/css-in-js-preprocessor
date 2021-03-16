@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
-const { preprocess } = require('../../dist/lib/es5/preprocess');
+const { preprocessor } = require('../../dist/lib/es5/preprocessor');
 
-describe('preprocess', () => {
+describe('preprocessor', () => {
   const tokenImport = './my-tokens';
   const tokens = {
     backgroundColor: '#fff',
@@ -31,8 +31,8 @@ describe('preprocess', () => {
   };`;
 
   test('basic', () => {
-    const preprocessor = preprocess(tokens, tokenImport);
-    expect(preprocessor(file)).toBe(`  export const something = {
+    const preprocess = preprocessor(tokens, tokenImport);
+    expect(preprocess(file)).toBe(`  export const something = {
     backgroundColor: '#fff',
     fontSize: 12,
     padding: 16,
@@ -40,8 +40,8 @@ describe('preprocess', () => {
   });
 
   test('destructure', () => {
-    const preprocessor = preprocess(tokens, tokenImport);
-    expect(preprocessor(fileDestructure)).toBe(`  export const something = {
+    const preprocess = preprocessor(tokens, tokenImport);
+    expect(preprocess(fileDestructure)).toBe(`  export const something = {
     backgroundColor: '#fff',
     fontSize: 12,
     padding: 16,
@@ -49,8 +49,8 @@ describe('preprocess', () => {
   });
 
   test('double quote', () => {
-    const preprocessor = preprocess(tokensDoubleQuote, tokenImport);
-    expect(preprocessor(file)).toBe(`  export const something = {
+    const preprocess = preprocessor(tokensDoubleQuote, tokenImport);
+    expect(preprocess(file)).toBe(`  export const something = {
     backgroundColor: '#fff',
     fontSize: 12,
     padding: 16,
@@ -61,9 +61,9 @@ describe('preprocess', () => {
     const custom1 = file => file.replace('fontSize: 12,', 'fontSize: 17,');
     const custom2 = file => file.replace('padding: 16,', 'margin: 16,');
 
-    const preprocessor = preprocess(tokens, tokenImport, [custom1, custom2]);
+    const preprocess = preprocessor(tokens, tokenImport, [custom1, custom2]);
 
-    expect(preprocessor(file)).toBe(`  export const something = {
+    expect(preprocess(file)).toBe(`  export const something = {
     backgroundColor: '#fff',
     fontSize: 17,
     margin: 16,

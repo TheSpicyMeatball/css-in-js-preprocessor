@@ -12,7 +12,7 @@ import { isNotNullOrEmpty } from '../_private/utils';
  * @param {Array<(file: string) => string>} custom Array of custom processors
  * @returns {(file: string) => string}
  */
-export const preprocess = (tokens: Record<string, unknown>, tokenImport: string, custom?: Array<(file: string) => string>) => (file: string) : string => {
+export const preprocessor = (tokens: Record<string, unknown>, tokenImport: string, custom?: Array<(file: string) => string>) => (file: string) : string => {
   file = preprocessTokens(file, tokens, tokenImport);
   file = removeImport(file, tokenImport);
 

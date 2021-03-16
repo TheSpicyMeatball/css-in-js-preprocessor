@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.com/TheSpicyMeatball/css-in-js-preprocessor.svg?branch=main)](https://travis-ci.com/TheSpicyMeatball/css-in-js-preprocessor)
-[![Coverage Status](https://coveralls.io/repos/github/TheSpicyMeatball/css-in-js-preprocessor/badge.svg?branch=main)](https://coveralls.io/github/TheSpicyMeatball/css-in-js-preprocessor?branch=main)
+[![Build Status](https://travis-ci.com/TheSpicyMeatball/css-in-js-preprocessor.svg?branch=master)](https://travis-ci.com/TheSpicyMeatball/css-in-js-preprocessor)
+[![Coverage Status](https://coveralls.io/repos/github/TheSpicyMeatball/css-in-js-preprocessor/badge.svg?branch=master)](https://coveralls.io/github/TheSpicyMeatball/css-in-js-preprocessor?branch=master)
 [![dependencies Status](https://status.david-dm.org/gh/TheSpicyMeatball/css-in-js-preprocessor.svg)](https://david-dm.org/TheSpicyMeatball/css-in-js-preprocessor)
 [![npm version](https://badge.fury.io/js/css-in-js-preprocessor.svg)](https://badge.fury.io/js/css-in-js-preprocessor)
 
@@ -12,12 +12,12 @@
 <p>Well, that's where <code>css-in-js-preprocessor</code> is here to save the day!</p>
 <p>With <code>css-in-js-preprocessor</code>, you can use your design system tokens to build your styles while also <i>auto-MAGICALLY</i> replacing the references to them with the actual values! Thus, eliminating the need for a dependency on a tokens package and ensuring that your values are up to date on every compile.</p>
 
-<p><b>Version:</b> 0.0.1</p>
+<p><b>Version:</b> 0.0.2</p>
 
 
   
 
-<h2>preprocess</h2>
+<h2>preprocessor</h2>
 <p>Preprocesses your css-in-js file by replacing references to design system tokens with actual values</p>
 <p>Since v1.0.0</p>
 <table>
@@ -31,45 +31,134 @@
   <h3>Import</h3>
 
 ```
-import { preprocess } from 'css-in-js-preprocessor';
+import { preprocessor } from 'css-in-js-preprocessor';
 ```
 
   <h3>Examples</h3>
 
 
 
+<h5>Note</h5>
+
+<p>These examples overwrite the original files. I recommend that you preprocess your compiled files as part of your compile process so that you always have reference tot he tokens is source. That way if the token value ever changes, the values in your js styles will be updated with the next compile.</p>
+
+<h4>Basic Example</h4>
+
+<h5>my-tokens.json</h5>
+
 ```
-// my-tokens.json
 {
-  "backgroundColor": "#fff",
-  "fontSize": 12,
-  "padding": 16
+  "backgroundAccentColor": "#ccc",
+  "fontSizeMedium": 12,
+  "paddingMedium": 16
 }
 ```
 
+<h5>styles.js</h5>
+
 ```
-const file = `
 import tokens from './my-tokens';
 
-export const something = {
-  backgroundColor: tokens.backgroundColor,
-  fontSize: tokens.fontSize,
-  padding: tokens.padding,
-};`;
+export const someStyle = {
+  backgroundColor: tokens.backgroundAccentColor,
+  fontSize: tokens.fontSizeMedium,
+  padding: tokens.paddingMedium,
+};
+```
 
-const preprocessor = preprocess(tokens, './my-tokens');
-preprocessor(file);
+<h5>style-preprocess.js</h5>
+<blockquote>This file should be executed at the end of your compile process.</blockquote>
 
-// outputs =>
-`
-export const something = {
+```
+const { preprocessor } = require('css-in-js-preprocessor');
+const fs = require('fs');
+const path = require('path');
+const tokens = require('./my-tokens');
+
+// Setup preprocessor:
+const preprocess = preprocessor(tokens, './my-tokens');
+
+// Read the file:
+let file = fs.readFileSync('./styles.js', 'utf8');
+
+// Preprocess the file:
+file = preprocess(file);
+
+// Save the file:
+// Note that this example overwrites the original file which 
+// should be the compiled version of the file and not the 
+// original source file. 
+fs.writeFileSync(path.join('./styles.js'), file, 'utf8');
+```
+
+<h5>styles.js</h5>
+<blockquote>This is the updated version after the preprocessor has run.</blockquote>
+
+```
+export const someStyle = {
   backgroundColor: '#fff',
   fontSize: 12,
   padding: 16,
-};`
+};
 ```
 
-<h3>Imports</h3>
+<h4>Custom Preprocessors</h4>
+
+<p>If you have additional preprocessing work that you'd like to do, you can pass in an array of functions that take in the preprocessed file where you can do your additional work and return the new string version of the file:</p>
+
+<h5>style-preprocess.js</h5>
+<blockquote>This file should be executed at the end of your compile process.</blockquote>
+<p>Modify the above example with this:</p>
+
+```
+const changePaddingToMargin = file => file.replace('padding: ', 'margin: ');
+
+// Setup preprocessor:
+const preprocess = preprocessor(tokens, './my-tokens', [changePaddingToMargin]);
+```
+
+<h5>styles.js</h5>
+<blockquote>This is the updated version after the preprocessor has run.</blockquote>
+
+```
+export const something = {
+  backgroundColor: '#fff,
+  fontSize: 12,
+  margin: 16,
+};
+```
+
+<h4>Multiple Files</h4>
+
+<p><code>preprocessor</code> conveniently returns a function so you can setup your base preprocessor one time and loop through the files you want to preprocess:</p>
+
+```
+const { preprocessor } = require('css-in-js-preprocessor');
+const fs = require('fs');
+const path = require('path');
+const tokens = require('./my-tokens');
+
+// Setup preprocessor:
+const preprocess = preprocessor(tokens, './my-tokens');
+
+const files = (fs.readdirsync(pathToDir) || []).filter(file => file.endsWith('.js'));
+
+for (const fileName of files) {
+  // Read the file:
+  let file = fs.readFileSync(path.join(pathToDir, fileName), 'utf8');
+
+  // Preprocess the file:
+  file = preprocess(file);
+
+  // Save the file:
+  // Note that this example overwrites the original files which 
+  // should be the compiled versions of the files and not the 
+  // original source files. 
+  fs.writeFileSync(path.join(pathToDir, fileName), file, 'utf8');
+}
+```
+
+<h4>Imports</h4>
 
 For your token imports, you may use: 
 
@@ -87,61 +176,7 @@ const tokenObj = require('./my-tokens');
 const { tokenzzz } = require('./my-tokens');
 ```
 
-<code>css-in-js-preprocessor</code> will pick up the name of your tokens object and get to work. 
-
-<h3>Multiple Files</h3>
-
-<p><code>preprocess</code> conveniently returns a function so you can setup your base preprocessor one time and loop through the files you want to preprocess:</p>
-
-```
-const fs = require('fs');
-const path = require('path');
-const tokens = require('./my-tokens');
-
-// Setup preprocessor:
-const preprocessor = preprocess(tokens, './my-tokens');
-
-const files = fs.readdirsync(pathToDir);
-
-for (const fileName of files) {
-  // Read the file:
-  let file = fs.readFileSync(path.join(pathToDir, fileName), 'utf8');
-
-  // Preprocess the file:
-  file = preprocessor(file);
-
-  // Save the file:
-  fs.writeFileSync(path.join(pathToDir, fileName), file, 'utf8');
-}
-```
-
-<h3>Custom Preprocessors</h3>
-
-<p>If you have additional preprocessing work that you'd like to do, you can pass in an array of functions that take in the preprocessed file where you can do your additional work and return the new string version of the file:</p>
-
-```
-const file = `
-import tokens from './my-tokens';
-
-export const something = {
-  backgroundColor: tokens.backgroundColor,
-  fontSize: tokens.fontSize,
-  padding: tokens.padding,
-};`;
-
-const changePaddingToMargin = file => file.replace('padding: ', 'margin: ');
-
-const preprocessor = preprocess(tokens, './my-tokens', [changePaddingToMargin]);
-preprocessor(file);
-
-// outputs =>
-`
-export const something = {
-  backgroundColor: '#fff,
-  fontSize: 12,
-  margin: 16,
-};`
-```
+<code>css-in-js-preprocessor</code> will pick up the name of your tokens object and get to work.
 
 
 
@@ -160,20 +195,20 @@ LICENSE
 README.md -- this file
 /lib
   └───/es5
-      └───index.d.ts - 44 Bytes
-      └───index.js - 277 Bytes
-    └───/preprocess
-      └───index.d.ts - 660 Bytes
-      └───index.js - 1.26 KB
+      └───index.d.ts - 48 Bytes
+      └───index.js - 289 Bytes
+    └───/preprocessor
+      └───index.d.ts - 662 Bytes
+      └───index.js - 1.27 KB
     └───/_private
       └───preprocessTokens - 2.16 KB
       └───removeImport - 1.23 KB
       └───utils - 1.16 KB
   └───/es6
-      └───index.d.ts - 44 Bytes
-      └───index.js - 44 Bytes
-    └───/preprocess
-      └───index.d.ts - 660 Bytes
+      └───index.d.ts - 48 Bytes
+      └───index.js - 48 Bytes
+    └───/preprocessor
+      └───index.d.ts - 662 Bytes
       └───index.js - 1.1 KB
     └───/_private
       └───preprocessTokens - 1.98 KB
